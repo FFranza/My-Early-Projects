@@ -19,6 +19,8 @@ fi
 ###########################################################################
 # Main Script                                                             #
 ###########################################################################
+ClientAliveInterval 300 # This sets if session is left for a certain amount of time it will autmotically log off
+ClientAliveCountMax 0
 
 while [ "$user_response_to_main_menu" != "FDWA" ] # This while while statement allows the script to run a loop when returning from sub menues
 do
@@ -28,7 +30,7 @@ do
     echo "                                                             ⠀ ⠀⣾⡳⠶⣤⣀⣾⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢷⡀⠀⠀⠈⡄⠙⠪⣳⠀⠀⠹⣿⣿⣿⣿⣿"⠀⠀⠀⠀⠀⠀# Bulge Bulge
     echo "                                                             ⠀ ⠀⢸⣧⣴⣿⢿⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⠀⠀⡄⢳⡄⠀⠀⠘⣆⠀⠀⠑⢄⠀⢸⣿⣿⣿⡟"⠀⠀⠀⠀⠀⠀
     echo "═════════════════════════════════════════════════════════════⠀⠀ ⠀⢿⣿⡟⠀⠀⠀⠀⢸⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣇⠀⠀⢹⡀⢻⡀⠀⠀⠘⢦⠀⠀⠀⠳⣼⣿⣿⣿⣧⣄"⠀⠀⠀⠀⠀ 
-    echo "║                Secure that Computer ⌐■_■                  ║⠀⠀ ⠀⠈⢿⣷⠀⠀⠀⢀⡎⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⢇⠈⣷⠀⠈⢦⡈⢳⡀⠀⠀⠀⠙⢿⣿⣿⣿⣿⣦⡀"⠀⠀
+    echo "║                Secure that Computer ʕง•ᴥ•ʔง               ║⠀⠀ ⠀⠈⢿⣷⠀⠀⠀⢀⡎⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⢇⠈⣷⠀⠈⢦⡈⢳⡀⠀⠀⠀⠙⢿⣿⣿⣿⣿⣦⡀"⠀⠀
     echo "═════════════════════════════════════════════════════════════⠀ ⢀⣤⣶⡿⠀⠀⠀⠀⡼⠇⠀⣇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣆⠈⢣⡘⡆⠀⠀⠙⡆⡙⢆⠀⠀⠀⠀⠈⠩⢍⡉⠉⠓"⠀⠀
     echo "║                                                           ║ ⣠⣿⠿⡿⠁⠀⠀⠀⣰⠁⠀⢰⠻⣄⡀⠀⠀⠀⠀⠀⣸⡇⢀⣿⠁⠀⠀⠙⣿⠀⠀⠀⢱⠐⠀⠳⣄⠀⠐⠒⠒⠂⠠⠔⠂"⠀⠀
     echo "║                                                           ║ ⠉⠀⡼⢁⠆⡆⠀⡴⠋⠀⣷⠏⠉⠹⡷⡄⢀⠀⠀⢀⠏⣇⣜⡇⠀⠀⣀⣀⣸⡆⠀⠀⢸⣾⠀⢺⣄⠙⢦⣀⣀⠀⠀⢢"⠀⠀⠀
@@ -88,7 +90,7 @@ do
                                 clear
                                 echo -e "${REDCOLOR}║ Security Updates are now being installed, please wait for a moment ║${NOCOLOR}"
                                 echo ""
-                                apt install ufw && echo "${GREENCOLOR}║   Firewall has been installed   ║${NOCOLOR}" && apt install libpam-pwquality && echo "${GREENCOLOR}║   PWQuality has been installed   ║${NOCOLOR}" && apt install auditd && echo "${GREENCOLOR}║   Daemon has been installed   ║${NOCOLOR}"
+                                apt install ufw && echo "${GREENCOLOR}║   Firewall has been installed   ║${NOCOLOR}" && apt install libpam-pwquality && echo "${GREENCOLOR}║   PWQuality has been installed   ║${NOCOLOR}" && apt install auditd && echo "${GREENCOLOR}║   Daemon has been installed   ║${NOCOLOR}" && apt install chkrootkit && echo "${GREENCOLOR}║   chkrootkit has been installed   ║${NOCOLOR}" && apt install rkhunter && echo "${GREENCOLOR}║   rkhunter has been installed   ║${NOCOLOR}" && apt install fail2ban && echo echo "${GREENCOLOR}║   Fail2Ban has been installed   ║${NOCOLOR}" && ufw enable && auditctl -e 1 && chkrootkit && rkhunter --update && rkhunter --check  
                                 echo ""
                                 echo -e " ${GREENCOLOR}║   Updates and Upgrade have been fully implemented   ║${NOCOLOR}"
                                 echo ""
@@ -214,16 +216,19 @@ do
                 echo "║                                                           ║"
                 echo "║     [1] Create New Users           [2] Remove Users       ║"
                 echo "║                                                           ║"
-                echo "║ [3] Disabling Guest User        [4] +/- Users From Group  ║"
+                echo "║ [3] Disabling Guest User           [4] Lock Root User     ║"
                 echo "║                                                           ║"
-                echo "║    [5] Lock Root User                                     ║"
+                echo "║                                                           ║"
                 echo "║                                                           ║"
                 echo "║                         [ExitUSR]                         ║"
                 echo "║                                                           ║"
                 echo "═════════════════════════════════════════════════════════════"
-                read USRANSWR
+                echo "║            These are all the users currently              ║"
+                echo "═════════════════════════════════════════════════════════════"
+                users=$(cut -d: -f1 /etc/passwd)
+                read user_response_to_user_management
 
-                case $USRANSWR in
+                case $user_response_to_user_management in
 
                     1) # Create New Users
                     clear
@@ -245,21 +250,37 @@ do
 
                     2) # Remove Users
                     clear
-                    echo "Hello4"
+                    whitelist_file="x/x/whitelist.txt" # Configure file path when command is ran
+                    readarray -t whitelist < "$whitelist_file"
+                    echo -e "${YELLOWCOLOR}║ Usernames in the whitelist are now being read ║${NOCOLOR}"
+                    for user in $(cut -d: f1 /etc/passwd); do
+                        if [[ " ${whitelist[@]} " =~ " ${user} "]]; then
+                        continue
+                    fi
+                    userdel "$user"
+                    done
+                    echo -e "${GREENCOLOR}║ Users not in the white list have now been deleted ║${NOCOLOR}"
+                    echo -e "${YELLOWCOLOR}║ Please press enter to leave this menu ║${NOCOLOR}"
                     read;;
-
+                
                     3) # Disable Guest User
                     clear
-                    echo "Hello5"
+                    echo -e "${YELLOWCOLOR}║ Removing Guest Account ║${NOCOLOR}" # Check this line to change if module is different
+                    sed -i 's/allow-guest=true/allow-guest=false/g' /etc/gdm3/gdm.conf
+                    echo -e "${GREENCOLOR} ║     Guest Account has been removed    ║${NOCOLOR}"
+                    echo -e "${YELLOWCOLOR}║ Please press enter to leave this menu ║${NOCOLOR}"
                     read;;
 
-                    4) # Add or Remove New Users from group
+                    4) # Lock Root User
                     clear
-                    echo "Hello6"
+                    echo -e "${YELLOWCOLOR}║ Locking Root Account ║${NOCOLOR}"
+                    passwd -l root
+                    echo -e "${YELLOWCOLOR}║          Root account locked          ║${NOCOLOR}"
+                    echo -e "${YELLOWCOLOR}║ Please press enter to leave this menu ║${NOCOLOR}"
                     read;;
                 esac
             done
-            USRANSWR="SADNiacxzcwqieuasd" # Variable reset to reset script from main USR Menu
+            user_response_to_user_management="SADNiacxzcwqieuasd" # Variable reset to reset script from main USR Menu
             ;;
         
         EXM)
@@ -296,22 +317,3 @@ echo " | |"
 echo " | |"
 echo " | |"
 echo "  - "
-#!/bin/bash
-
-# Set the directory to search
-dir="/path/to/directory"
-
-# Set the list of hazardous file types
-hazardous_types=(".exe" ".bat" ".com" ".vbs" ".cmd" ".scr" ".pif" ".lnk")
-
-# Iterate over each file in the directory
-for file in "$dir"/*; do
-  # Get the file extension
-  extension="${file##*.}"
-  
-  # Check if the file extension is in the list of hazardous types
-  if [[ " ${hazardous_types[@]} " =~ " ${extension} " ]]; then
-    # Remove the file if it is hazardous
-    rm "$file"
-  fi
-done
