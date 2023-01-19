@@ -11,7 +11,7 @@ REDCOLOR='\033[1;31m'
 GREENCOLOR='\033[1;32m'
 YELLOWCOLOR='\033[1;33m'
 NOCOLOR='\033[0m'
-if [ "$EUID" != "197610" ]
+if [ "$EUID" != "0" ]
     then clear && echo -e "${REDCOLOR}How the hell did you even get here? Run the script with sudo dumb dumb 𓃰"
     exit
 fi
@@ -56,15 +56,16 @@ do
     case $user_response_to_main_menu in
 
         1) # Display Apt Packages
-            while [ "$user_response_to_MainAPG_menu" != "3" ] # Sets variable to exit while statement to return to the main menu or inputs a invalid option and loops option
+            while [ "$user_response_to_MainAPG_menu" != "4" ] # Sets variable to exit while statement to return to the main menu or inputs a invalid option and loops option
             do
                 clear
                 echo "═════════════════════════════════════════════════════════════" 
                 echo "║             Welcome to the APG install Menu               ║"
                 echo "═════════════════════════════════════════════════════════════"
                 echo "║                                                           ║"
-                echo "║      [1][APGINSTALL]                 [2][APGREMOVE]       ║"
-                echo "║                        [3][ExitAPG]                       ║"
+                echo "║    [1] Install Updates               [2] Remove .smb      ║"
+                echo "║                                                           ║"
+                echo "║    [3] Install Security Tools        [4] Exit             ║"
                 echo "║                                                           ║"
                 echo "═════════════════════════════════════════════════════════════"
                 echo "║        These are the current packages installed           ║"
@@ -79,38 +80,21 @@ do
                         echo ""
                         apt-get update && apt-get upgrade && apt-get dist-upgrade
                         echo ""
-                        echo -e "${GREENCOLOR}║    Updates and Upgrade have been fully implemented   ║${NOCOLOR}"
-                        echo -e "${YELLOWCOLOR}║ Would you like to install additional security tools? ║${NOCOLOR}"
-                        echo -e "${YELLOWCOLOR}║            Y                       N                 ║${NOCOLOR}"    
-                        read user_response_to_APGInstall_menu # Reads case statement for sub APG choice
+                        echo -e "${GREENCOLOR}║    Updates and Upgrade have been fully implemented   ║${NOCOLOR}"  
+                        read;;
 
-                            case $user_response_to_APGInstall_menu in # Case statement for installing or not installing security packages
-
-                                Y) # Install Additional Security Tools
-                                clear
-                                echo -e "${REDCOLOR}║ Security Updates are now being installed, please wait for a moment ║${NOCOLOR}"
-                                echo ""
-                                apt-get install ufw && echo -e "${GREENCOLOR}║   Firewall has been installed   ║${NOCOLOR}" && apt-get install libpam-pwquality && echo -e "${GREENCOLOR}║   PWQuality has been installed   ║${NOCOLOR}" && apt-get install auditd && echo -e "${GREENCOLOR}║   Daemon has been installed   ║${NOCOLOR}" && apt-get install chkrootkit && echo -e "${GREENCOLOR}║   chkrootkit has been installed   ║${NOCOLOR}" && apt-get install rkhunter && echo -e "${GREENCOLOR}║   rkhunter has been installed   ║${NOCOLOR}" && apt-get install fail2ban && echo -e "${GREENCOLOR}║   Fail2Ban has been installed   ║${NOCOLOR}" && ufw enable && auditctl -e 1 && chkrootkit && rkhunter --update && rkhunter --check  
-                                echo ""
-                                echo -e " ${GREENCOLOR}║   Updates and Upgrade have been fully implemented   ║${NOCOLOR}"
-                                echo ""
-                                echo -e "${YELLOWCOLOR}║ Press Enter to leave this menu ║${NOCOLOR}"
-                                read;;
-
-                                N) # Not cause you don't have time
-                                clear
-                                echo -e "${YELLOWCOLOR}║ Press Enter to leave this menu ║${NOCOLOR}"
-                                read;;
-
-                                *) # Invalid Option
-                                clear
-                                echo -e "${REDCOLOR}║ Invalid Option, press enter to leave the menu ║${NOCOLOR}"
-                                read;;
-                            esac
+                        2) # Install Additional Security Tools
+                        clear
+                        echo -e "${REDCOLOR}║ Security Updates are now being installed, please wait for a moment ║${NOCOLOR}"
+                        echo ""
+                        apt-get install ufw && echo -e "${GREENCOLOR}║   Firewall has been installed   ║${NOCOLOR}" && apt-get install libpam-pwquality && echo -e "${GREENCOLOR}║   PWQuality has been installed   ║${NOCOLOR}" && apt-get install auditd && echo -e "${GREENCOLOR}║   Daemon has been installed   ║${NOCOLOR}" && apt-get install chkrootkit && echo -e "${GREENCOLOR}║   chkrootkit has been installed   ║${NOCOLOR}" && apt-get install rkhunter && echo -e "${GREENCOLOR}║   rkhunter has been installed   ║${NOCOLOR}" && apt-get install fail2ban && echo -e "${GREENCOLOR}║   Fail2Ban has been installed   ║${NOCOLOR}" && ufw enable && auditctl -e 1 && chkrootkit && rkhunter --update && rkhunter --check  
+                        echo ""
+                        echo -e " ${GREENCOLOR}║   Updates and Upgrade have been fully implemented   ║${NOCOLOR}"
+                        echo ""
                         echo -e "${YELLOWCOLOR}║ Press Enter to leave this menu ║${NOCOLOR}"
                         read;;
 
-                        2) # Remove Samba related 
+                        3) # Remove Samba related 
                         clear
                         echo -e "${REDCOLOR}║ Removing all Samba related files, please wait for a moment ║${NOCOLOR}"
                         echo ""
@@ -120,6 +104,7 @@ do
                         echo ""
                         echo -e "${YELLOWCOLOR}║ Press enter to levae this menu ║${NOCOLOR}"
                         read;;
+                        
                 esac
             done
             user_response_to_MainAPG_menu="ADIasdwkandias" # SET THIS FOR EVERY CASE TO RESET VARIABLE PLEASE DO NOT FORGET TO RESET YOUR VARIABLE YOU SEE THIS I KNOW YOU DO
@@ -173,14 +158,49 @@ do
             ;;
 
         3) # Display Firewall
-            clear
-            echo "═════════════════════════════════════════════════════════════" 
-            echo "║           Welcome to the Firewall Config Menu             ║"
-            echo "═════════════════════════════════════════════════════════════"
-            echo "║                                                           ║"
-            echo "║   [1] Flush Firewall Rules       [2] Block all Traffic    ║"
-            echo "║                                                           ║"
-            read;;
+            while [ "$user_response_to_firewall" != "4" ]
+            do 
+                clear
+                echo "═════════════════════════════════════════════════════════════" 
+                echo "║           Welcome to the Firewall Config Menu             ║"
+                echo "═════════════════════════════════════════════════════════════"
+                echo "║                                                           ║"
+                echo "║   [1] Block All Traffic      [2] Allow SSH Port 22        ║"
+                echo "║                                                           ║"
+                echo "║   [3] Log Dropped Packets    [4] Exit                     ║"
+                echo "║                                                           ║"
+                echo "═════════════════════════════════════════════════════════════"
+                read user_response_to_main_firewall_menu
+
+                case $user_response_to_main_firewall_menu in
+
+                    1) # Blocks all incoming Traffic to ensure no traffic should go into the firewall
+                    clear
+                    echo -e "${YELLOWCOLOR}║ Denying all incoming traffic ║${NOCOLOR}"
+                    ufw default deny incoming
+                    echo -e "${GREENCOLOR} ║       All Traffic has been denied     ║${NOCOLOR}"
+                    echo -e "${YELLOWCOLOR}║ Please press enter to leave this menu ║${NOCOLOR}"
+                    read;; 
+
+                    2) # Allows SSH traffic on port 22
+                    clear
+                    echo -e "${YELLOWCOLOR}║ Allowing SSH traffic on port 22 ║${NOCOLOR}"
+                    ufw allow 22/tcp
+                    echo -e "${GREENCOLOR} ║ SSH Traffic is now allowed on port 22 ║${NOCOLOR}"
+                    echo -e "${YELLOWCOLOR}║ Please press enter to leave this menu ║${NOCOLOR}"
+                    read;;
+
+                    3) # It logs all dropped packets
+                    clear
+                    echo -e "${YELLOWCOLOR}║ Allowing SSH traffic on port 22 ║${NOCOLOR}"
+                    ufw logging on
+                    echo -e "${GREENCOLOR} ║ SSH Traffic is now allowed on port 22 ║${NOCOLOR}"                   
+                    echo -e "${YELLOWCOLOR}║ Please press enter to leave this menu ║${NOCOLOR}"
+                    read;;
+            done
+            user_response_to_firewall="saudnawkdnaskdnaisncxiASNDikasd"
+            ;;
+
 
         4) # Display User Configuration
             while [ "$user_response_to_user_management" != "ExitUSR" ]
@@ -194,14 +214,15 @@ do
                 echo "║                                                           ║"
                 echo "║ [3] Disabling Guest User           [4] Lock Root User     ║"
                 echo "║                                                           ║"
-                echo "║                                                           ║"
-                echo "║                                                           ║"
+                echo "║ [5] Change Password                [6] Add a User into    ║"
+                echo "║     of a User                          into Sudo Group    ║"
                 echo "║                         [ExitUSR]                         ║"
                 echo "║                                                           ║"
                 echo "═════════════════════════════════════════════════════════════"
                 echo "║            These are all the users currently              ║"
                 echo "═════════════════════════════════════════════════════════════"
-                users=$(cut -d: -f1 /etc/passwd)
+                current_listed_users="awk -F: ' { print $1}' /etc/passwd"
+                echo $current_listed_users 
                 read user_response_to_user_management
 
                 case $user_response_to_user_management in
@@ -251,7 +272,7 @@ do
                     clear
                     echo -e "${YELLOWCOLOR}║ Locking Root Account ║${NOCOLOR}"
                     passwd -l root
-                    echo -e "${YELLOWCOLOR}║          Root account locked          ║${NOCOLOR}"
+                    echo -e "${GREENCOLOR} ║          Root account locked          ║${NOCOLOR}"
                     echo -e "${YELLOWCOLOR}║ Please press enter to leave this menu ║${NOCOLOR}"
                     read;;
                 esac
