@@ -5,6 +5,7 @@
 # Line 89 for Security Tools using apt command (Comment: May want to add extra tools specificed on the read me)
 # Line 114 for Remvoing Samba Related Files (Comment: Use Wildcards to remove extra files, may want to add apt autoremove for unneeded packages)
 # Line 170 - 177 for Password Policy through PAM config (Comment: Edit the Variables on those lines then run command)
+# Pleae be reminded that a whitelist text file is required for the script deleting users
 
 # Use $ and open curved brackets to use these colors, use line 11 as an example
 REDCOLOR='\033[1;31m'
