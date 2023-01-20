@@ -5,14 +5,13 @@
 # Line 89 for Security Tools using apt command (Comment: May want to add extra tools specificed on the read me)
 # Line 114 for Remvoing Samba Related Files (Comment: Use Wildcards to remove extra files, may want to add apt autoremove for unneeded packages)
 # Line 170 - 177 for Password Policy through PAM config (Comment: Edit the Variables on those lines then run command)
-# Pleae be reminded that a whitelist text file is required for the script deleting users
 
 # Use $ and open curved brackets to use these colors, use line 11 as an example
 REDCOLOR='\033[1;31m'
 GREENCOLOR='\033[1;32m'
 YELLOWCOLOR='\033[1;33m'
 NOCOLOR='\033[0m'
-if [ "$EUID" != "0" ]
+if [ "$EUID" != "197610" ]
     then clear && echo -e "${REDCOLOR}How the hell did you even get here? Run the script with sudo dumb dumb 𓃰"
     exit
 fi
@@ -35,7 +34,7 @@ do
     echo "═════════════════════════════════════════════════════════════⠀ ⢀⣤⣶⡿⠀⠀⠀⠀⡼⠇⠀⣇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣆⠈⢣⡘⡆⠀⠀⠙⡆⡙⢆⠀⠀⠀⠀⠈⠩⢍⡉⠉⠓"⠀⠀
     echo "║                                                           ║ ⣠⣿⠿⡿⠁⠀⠀⠀⣰⠁⠀⢰⠻⣄⡀⠀⠀⠀⠀⠀⣸⡇⢀⣿⠁⠀⠀⠙⣿⠀⠀⠀⢱⠐⠀⠳⣄⠀⠐⠒⠒⠂⠠⠔⠂"⠀⠀
     echo "║                                                           ║ ⠉⠀⡼⢁⠆⡆⠀⡴⠋⠀⣷⠏⠉⠹⡷⡄⢀⠀⠀⢀⠏⣇⣜⡇⠀⠀⣀⣀⣸⡆⠀⠀⢸⣾⠀⢺⣄⠙⢦⣀⣀⠀⠀⢢"⠀⠀⠀
-    echo "║       [1] Packages                  [3] Firewall          ║⠀ ⠈⠀⣜⡼⣡⣾⠀⢺⠀⡏⠀⠀⠀⠁⠈⢺⣧⠀⢸⢀⡿⠙⠡⣴⣿⣿⣿⡟⡿⠁⠀⠀⣷⡇⢸⢿⠀⠀⠻⡍⠙⠷⢀⠃"⠀⠀
+    echo "║       [1] Package Management        [3] Firewall          ║⠀ ⠈⠀⣜⡼⣡⣾⠀⢺⠀⡏⠀⠀⠀⠁⠈⢺⣧⠀⢸⢀⡿⠙⠡⣴⣿⣿⣿⡟⡿⠁⠀⠀⣷⡇⢸⢿⠀⠀⠻⡍⠙⠷⢀⠃"⠀⠀
     echo "║                                                           ║⠠⠀⠀⠀⠨⠀⡇⢸⠀⠘⡄⣇⣠⣴⣶⣶⣿⣄⡘⢷⣼⡖⠃⠀⠘⠉⠿⠛⠛⠁⠁⠀⠀⠀⣿⣷⠈⣯⠀⠀⠀⡌⢆⠀⠀⠁"⠀⠀
     echo "║                                                           ║⠀⠀⠀⠀⠀⠀⠃⢸⡆⠀⢹⣿⡿⠁⠙⠿⠟⠛⠀⠀⠈⠁⠀⠀⠀⠀⠀⠀⠀⢠⡀⢠⠁⠀⣿⣩⣧⢻⠣⡀⠀⢱⠀⡧"⠀⠀⠀⠀
     echo "║                                                           ║⠀⠀⠀⠀⠀⠀⠀⡏⢣⠀⢸⣹⣿⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⡼⠀⣼⣿⠁⠈⢫⣇⣹⣷⡦⣷⡖⠤⣄"⠀⠀
@@ -88,7 +87,7 @@ do
                         clear
                         echo -e "${REDCOLOR}║ Security Updates are now being installed, please wait for a moment ║${NOCOLOR}"
                         echo ""
-                        apt-get install ufw && echo -e "${GREENCOLOR}║   Firewall has been installed   ║${NOCOLOR}" && apt-get install libpam-pwquality && echo -e "${GREENCOLOR}║   PWQuality has been installed   ║${NOCOLOR}" && apt-get install auditd && echo -e "${GREENCOLOR}║   Daemon has been installed   ║${NOCOLOR}" && apt-get install chkrootkit && echo -e "${GREENCOLOR}║   chkrootkit has been installed   ║${NOCOLOR}" && apt-get install rkhunter && echo -e "${GREENCOLOR}║   rkhunter has been installed   ║${NOCOLOR}" && apt-get install fail2ban && echo -e "${GREENCOLOR}║   Fail2Ban has been installed   ║${NOCOLOR}" && ufw enable && auditctl -e 1 && chkrootkit && rkhunter --update && rkhunter --check  
+                        apt-get install ufw && echo -e "${GREENCOLOR}║   Firewall has been installed   ║${NOCOLOR}" && apt-get install libpam-cracklib && echo -e "${GREENCOLOR}║   Cracklib has been installed   ║${NOCOLOR}" && apt-get install auditd && echo -e "${GREENCOLOR}║   Daemon has been installed   ║${NOCOLOR}" && apt-get install chkrootkit && echo -e "${GREENCOLOR}║   chkrootkit has been installed   ║${NOCOLOR}" && apt-get install rkhunter && echo -e "${GREENCOLOR}║   rkhunter has been installed   ║${NOCOLOR}" && apt-get install fail2ban && echo -e "${GREENCOLOR}║   Fail2Ban has been installed   ║${NOCOLOR}" && ufw enable && auditctl -e 1 && chkrootkit && rkhunter --update && rkhunter --check  
                         echo ""
                         echo -e " ${GREENCOLOR}║   Updates and Upgrade have been fully implemented   ║${NOCOLOR}"
                         echo ""
@@ -129,29 +128,13 @@ do
                 read user_response_to_PassPol
                 
                 if [ "$user_response_to_PassPol" = "1" ]; then
-
-                    # Set password policy parameters
-                    password_min_age=10
-                    password_max_age=90
-                    password_warn_age=7
-                    pam_pwquality_try_first_pass
-                    pam_pwquality_minlen=16
-                    pam_pwquality_dcredit=-1
-                    pam_pwquality_ucredit=-1
-                    pam_pwquality_ocredit=-1
-                    pam_pwquality_lcredit=-1 
-                    
-                    # Get list of all users on the system
-                    users=$(cut -d: -f1 /etc/passwd)
                     
                     # Configure password policy for each user
                     echo -e "${REDCOLOR}║ Setting password policy for the system, please wait ║${NOCOLOR}"
-                    sed -i "s/PASS_MAX_DAYS.*$/PASS_MAX_DAYS=$password_max_age/" /etc/login.defs
-                    sed -i "s/PASS_MIN_DAYS.*$/PASS_MIN_DAYS=$password_min_age/" /etc/login.defs
-                    sed -i "s/PASS_WARN_AGE.*$/PASS_WARN_AGE=$password_warn_age/" /etc/login.defs
-                    sed -i '/pam_pwquality.so/ s/$/ try_first_pass/' /etc/pam.d/common-password
-                    sed -i "s/\(pam_pwquality\.so.*\)\(dcredit=[-0-9]\+\)/\1 dcredit=$pam_pwquality_dcredit/; s/\(pam_pwquality\.so.*\)\(ucredit=[-0-9]\+\)/\1 ucredit=$pam_pwquality_ucredit/; s/\(pam_pwquality\.so.*\)\(ocredit=[-0-9]\+\)/\1 ocredit=$pam_pwquality_ocredit/; s/\(pam_pwquality\.so.*\)\(lcredit=[-0-9]\+\)/\1 lcredit=$pam_pwquality_lcredit/" /etc/pam.d/common-password #This allows the script to run and edit the common-password in the PAM module and edit the individual modules for password strength using sed                      
-                    echo -e "${GREENCOLOR}║ Password policy set successfully for user ║${NOCOLOR}"
+                    sed -i 's/PASS_MAX_DAYS.*$/PASS_MAX_DAYS 90/;s/PASS_MIN_DAYS.*$/PASS_MIN_DAYS 10/;s/PASS_WARN_AGE.*$/PASS_WARN_AGE 7/' /etc/login.defs
+                    sed -i 's/\(pam_unix\.so.*\)$/\1 remember=5 minlen=8/' /etc/pam.d/common-password
+                    sed -i 's/\(pam_cracklib\.so.*\)$/\1 ucredit=-1 lcredit=-1 dcredit=-1 ocredit=-1/' /etc/pam.d/common-password
+                    echo -e "${GREENCOLOR}║ Password policy set successfully for users ║${NOCOLOR}"
                     read
                 fi
             done
@@ -222,8 +205,7 @@ do
                 echo "═════════════════════════════════════════════════════════════"
                 echo "║            These are all the users currently              ║"
                 echo "═════════════════════════════════════════════════════════════"
-                current_listed_users="awk -F: ' { print $1}' /etc/passwd"
-                echo $current_listed_users 
+                awk -F: ' { print $1}' /etc/passwd
                 read user_response_to_user_management
 
                 case $user_response_to_user_management in
@@ -248,10 +230,10 @@ do
 
                     2) # Remove Users
                     clear
-                    whitelist_file="/home/computermomkaren/Documents/whitelist.txt" # Configure file path when command is ran
+                    whitelist_file="/home/$USER/Desktop/whitelist.txt" # Configure file path when command is ran
                     readarray -t whitelist < "$whitelist_file"
                     echo -e "${YELLOWCOLOR}║ Usernames in the whitelist are now being read ║${NOCOLOR}"
-                    for user in $(cut -d: f1 /etc/passwd); do
+                    for user in $(awk -F: ' { print $1}' /etc/passwd); do
                         if '[[ " ${whitelist[@]} " =~ " ${user} "]]'; then
                         continue
                     fi
