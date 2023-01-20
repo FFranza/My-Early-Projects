@@ -20,8 +20,6 @@ fi
 # Main Script                                                             #
 ###########################################################################
 
-
-
 while [ "$user_response_to_main_menu" != "FDWA" ] # This while while statement allows the script to run a loop when returning from sub menues
 do
     clear
@@ -65,9 +63,9 @@ do
                 echo "║                                                           ║"
                 echo "║    [1] Install Updates               [2] Remove .smb      ║"
                 echo "║                                                           ║"
-                echo "║    [3] Install Security Tools        [4] Remove Mp3 Files ║"
+                echo "║    [3] Install Security Tools        [4] Find mp files    ║"
                 echo "║                                                           ║"
-                echo "║    [5] Remove Hacking Tools          [6] Exit             ║"
+                echo "║    [5] Find Hacking Tools            [6] Exit             ║"
                 echo "║                                                           ║"
                 echo "═════════════════════════════════════════════════════════════"
                 echo "║        These are the current packages installed           ║"
@@ -107,22 +105,22 @@ do
                         echo -e "${YELLOWCOLOR}║ Press enter to levae this menu ║${NOCOLOR}"
                         read;;
 
-                        4) # Remove mp3 files
+                        4) # Finds mp3 files
                         clear
-                        echo -e "${REDCOLOR}║ Removing all Samba related files, please wait for a moment ║${NOCOLOR}"
-                        find /home/ -type f \( -name "*.mp3" -o -name "*.mp4" \)
+                        echo -e "${REDCOLOR}║ Sniffing for mp3 and mp4 files ║${NOCOLOR}"
+                        find /home/ -type f \( -name "*.mp3" -o -name "*.mp4" \) -exec rm {} \
                         echo ""
-                        echo -e "${GREENCOLOR}║ All Samba files have been removed ║${NOCOLOR}"
+                        echo -e "${GREENCOLOR}║ Found all current mp3 and mp4 files║${NOCOLOR}"
                         echo ""
                         echo -e "${YELLOWCOLOR}║ Press enter to levae this menu ║${NOCOLOR}"
                         read;;
 
-                        5) # Remove hacking tools
+                        5) # Finds hacking tools
                         clear
-                        echo -e "${REDCOLOR}║ Removing all Samba related files, please wait for a moment ║${NOCOLOR}"
+                        echo -e "${REDCOLOR}║ Sniffing for hacking tools in the system ║${NOCOLOR}"
                         find /home/ -type f \( "*.tar.gz" -o -name "*.tgz" -o -name "*.zip" -o -name "*.deb" \)
                         echo ""
-                        echo -e "${GREENCOLOR}║ All Samba files have been removed ║${NOCOLOR}"
+                        echo -e "${GREENCOLOR}║ Hacking tools in the system have been found ║${NOCOLOR}"
                         echo ""
                         echo -e "${YELLOWCOLOR}║ Press enter to levae this menu ║${NOCOLOR}"
                 esac
@@ -204,6 +202,7 @@ do
                     echo ""                   
                     echo -e "${YELLOWCOLOR}║ Please press enter to leave this menu ║${NOCOLOR}"
                     read;;
+               esac
             done
             user_response_to_firewall="saudnawkdnaskdnaisncxiASNDikasd"
             ;;
