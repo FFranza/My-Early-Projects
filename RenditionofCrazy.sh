@@ -11,7 +11,7 @@ REDCOLOR='\033[1;31m'
 GREENCOLOR='\033[1;32m'
 YELLOWCOLOR='\033[1;33m'
 NOCOLOR='\033[0m'
-if [ "$EUID" != "197610" ]
+if [ "$EUID" != "0" ]
     then clear && echo -e "${REDCOLOR}How the hell did you even get here? Run the script with sudo dumb dumb 𓃰"
     exit
 fi
@@ -56,16 +56,18 @@ do
     case $user_response_to_main_menu in
 
         1) # Display Apt Packages
-            while [ "$user_response_to_MainAPG_menu" != "4" ] # Sets variable to exit while statement to return to the main menu or inputs a invalid option and loops option
+            while [ "$user_response_to_MainAPG_menu" != "6" ] # Sets variable to exit while statement to return to the main menu or inputs a invalid option and loops option
             do
                 clear
                 echo "═════════════════════════════════════════════════════════════" 
-                echo "║             Welcome to the APG install Menu               ║"
+                echo "║          Welcome to the Package Management Menu           ║"
                 echo "═════════════════════════════════════════════════════════════"
                 echo "║                                                           ║"
                 echo "║    [1] Install Updates               [2] Remove .smb      ║"
                 echo "║                                                           ║"
-                echo "║    [3] Install Security Tools        [4] Exit             ║"
+                echo "║    [3] Install Security Tools        [4] Remove Mp3 Files ║"
+                echo "║                                                           ║"
+                echo "║    [5] Remove Hacking Tools          [6] Exit             ║"
                 echo "║                                                           ║"
                 echo "═════════════════════════════════════════════════════════════"
                 echo "║        These are the current packages installed           ║"
@@ -104,7 +106,25 @@ do
                         echo ""
                         echo -e "${YELLOWCOLOR}║ Press enter to levae this menu ║${NOCOLOR}"
                         read;;
-                        
+
+                        4) # Remove mp3 files
+                        clear
+                        echo -e "${REDCOLOR}║ Removing all Samba related files, please wait for a moment ║${NOCOLOR}"
+                        find /home/ -type f \( -name "*.mp3" -o -name "*.mp4" \)
+                        echo ""
+                        echo -e "${GREENCOLOR}║ All Samba files have been removed ║${NOCOLOR}"
+                        echo ""
+                        echo -e "${YELLOWCOLOR}║ Press enter to levae this menu ║${NOCOLOR}"
+                        read;;
+
+                        5) # Remove hacking tools
+                        clear
+                        echo -e "${REDCOLOR}║ Removing all Samba related files, please wait for a moment ║${NOCOLOR}"
+                        find /home/ -type f \( "*.tar.gz" -o -name "*.tgz" -o -name "*.zip" -o -name "*.deb" \)
+                        echo ""
+                        echo -e "${GREENCOLOR}║ All Samba files have been removed ║${NOCOLOR}"
+                        echo ""
+                        echo -e "${YELLOWCOLOR}║ Press enter to levae this menu ║${NOCOLOR}"
                 esac
             done
             user_response_to_MainAPG_menu="ADIasdwkandias" # SET THIS FOR EVERY CASE TO RESET VARIABLE PLEASE DO NOT FORGET TO RESET YOUR VARIABLE YOU SEE THIS I KNOW YOU DO
@@ -163,6 +183,7 @@ do
                     echo -e "${YELLOWCOLOR}║ Denying all incoming traffic ║${NOCOLOR}"
                     ufw default deny incoming
                     echo -e "${GREENCOLOR} ║       All Traffic has been denied     ║${NOCOLOR}"
+                    echo ""
                     echo -e "${YELLOWCOLOR}║ Please press enter to leave this menu ║${NOCOLOR}"
                     read;; 
 
@@ -171,6 +192,7 @@ do
                     echo -e "${YELLOWCOLOR}║ Allowing SSH traffic on port 22 ║${NOCOLOR}"
                     ufw allow 22/tcp
                     echo -e "${GREENCOLOR} ║ SSH Traffic is now allowed on port 22 ║${NOCOLOR}"
+                    echo ""
                     echo -e "${YELLOWCOLOR}║ Please press enter to leave this menu ║${NOCOLOR}"
                     read;;
 
@@ -178,16 +200,16 @@ do
                     clear
                     echo -e "${YELLOWCOLOR}║ Allowing SSH traffic on port 22 ║${NOCOLOR}"
                     ufw logging on
-                    echo -e "${GREENCOLOR} ║ SSH Traffic is now allowed on port 22 ║${NOCOLOR}"                   
+                    echo -e "${GREENCOLOR} ║ SSH Traffic is now allowed on port 22 ║${NOCOLOR}"
+                    echo ""                   
                     echo -e "${YELLOWCOLOR}║ Please press enter to leave this menu ║${NOCOLOR}"
                     read;;
             done
             user_response_to_firewall="saudnawkdnaskdnaisncxiASNDikasd"
             ;;
 
-
         4) # Display User Configuration
-            while [ "$user_response_to_user_management" != "ExitUSR" ]
+            while [ "$user_response_to_user_management" != "6" ]
             do 
             clear
                 echo "═════════════════════════════════════════════════════════════" 
@@ -198,9 +220,9 @@ do
                 echo "║                                                           ║"
                 echo "║ [3] Disabling Guest User           [4] Lock Root User     ║"
                 echo "║                                                           ║"
-                echo "║ [5] Change Password                [6] Add a User into    ║"
-                echo "║     of a User                          into Sudo Group    ║"
-                echo "║                         [ExitUSR]                         ║"
+                echo "║ [6] Add a User into                [6] Exit               ║"
+                echo "║     into Sudo Group                                       ║"
+                echo "║                                                           ║"
                 echo "║                                                           ║"
                 echo "═════════════════════════════════════════════════════════════"
                 echo "║            These are all the users currently              ║"
@@ -258,6 +280,16 @@ do
                     echo -e "${GREENCOLOR} ║          Root account locked          ║${NOCOLOR}"
                     echo -e "${YELLOWCOLOR}║ Please press enter to leave this menu ║${NOCOLOR}"
                     read;;
+
+                    5) # Add a user to the sudo group
+                    clear
+                    echo -e "${YELLOWCOLOR}║ Please enter a Username: ║${NOCOLOR}"
+                    read Username
+                    echo ""
+                    usermod -aG sudo $Username
+                    echo -e "${GREENCOLOR} ║ $Username has been added to the sudo group ║${NOCOLOR}"
+                    echo -e "${YELLOWCOLOR}║   Please press enter to leave this menu    ║${NOCOLOR}"
+
                 esac
             done
             user_response_to_user_management="SADNiacxzcwqieuasd" # Variable reset to reset script from main USR Menu
