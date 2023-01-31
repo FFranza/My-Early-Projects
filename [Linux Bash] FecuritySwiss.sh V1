@@ -2,19 +2,26 @@
 # This Script will not run WITHOUT Sudo
 # This security tool installs, implements, and edits your system to harden and secure your Linux Desktop
 # It will only work on DEB based systems
-if [ $EUID !=  "1" ]
+if [ $EUID !=  "0" ]
   then echo "Run script with sudo."
   exit
 fi
 #________________________________________________#
 automatic_password_policy()
-minlen=1
-minclass=16
+# These values allow edit and changes based on any updates standards on password policy
+# All edits are made to the etc/security/pamquality.conf except for retries
+minlen=16
+minclass=4
 ucredit=-1
 dcredit=-1
 ocredit=-1
+lcredit=-1
+retry=3
 {
-sed -i '25s/$/ minlen=$minlen minclass=$minclass ucredit=$ucredit dcredit=$dcredit ocredit=$ocredit ' /etc/pam.d/common-password
+sed -i '25s/$/ minlen=$minlen minclass=$minclass ucredit=$ucredit dcredit=$dcredit ocredit=$ocredit lcredit=$lcredit/' /etc/security/pwquality.conf
+sed -1 '25s/$/ retry=$retry
+passwd -d root # This will delete the root password
+passwd -l root # This will lock root
 }
 
 #________________________________________________#
