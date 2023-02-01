@@ -1,4 +1,4 @@
-#!bin/bash
+#!/bin/bash
 # This Script will not run WITHOUT Sudo
 # This security tool installs, implements, and edits your system to harden and secure your Linux Desktop
 # It will only work on DEB based systems
@@ -10,8 +10,9 @@ fi
 #________________________________________________#
 automatic_password_policy()
 # These values allow edit and changes based on any updates standards on password policy
-# All edits are made to the /etc/security/pamquality.conf except for retries
-# Viewed CIS benchmark for Ubuntu
+# All edits are made to the /etc/security/pwquality.conf
+# This section allows to change the values found without it being specified to the default value. Only change the number value.
+# Find a sed manuel before editing the file if usage of sed is not clear
 {
 sed -i 's/^minlen.*/minlen=16/' /etc/security/pwquality.conf
 sed -i 's/^minclass.*/minclass=4/' /etc/security/pwquality.conf
@@ -20,12 +21,13 @@ sed -i 's/^dcredit.*/dcredit=-1/' /etc/security/pwquality.conf
 sed -i 's/^ocredit.*/orcredit=-1/' /etc/security/pwquality.conf
 sed -i 's/^lcredit.*/lcredit=-1/' /etc/security/pwquality.conf
 # Anything beyond here edits other files, typically in the pam.d directory 
-sed -1 '25s/$/ try_first_pass local_users_only retry=3/' /etc/pam.d/common-password
-sed -i '
-passwd -d root # This will delete the root password
+sed -i '25s/$/ try_first_pass local_users_only retry=3/' /etc/pam.d/common-password
+sed -i '/secure$/a auth required pam_tally2.so onerr=fail audit silent deny=5 unlock_time=900'
+sed -i '/unix.so$/a account requisite pam_deny.so
+sed -i '/deny.so$/a account required pam_tally2.so
+passwd -d root # This will delete the root password, please make sure to have an account in the sudo group before doing this
 passwd -l root # This will lock root
 }
-
 #________________________________________________#
 installing_updates_and_tools()
 {
