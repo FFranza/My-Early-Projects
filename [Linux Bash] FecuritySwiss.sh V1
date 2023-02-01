@@ -2,6 +2,7 @@
 # This Script will not run WITHOUT Sudo
 # This security tool installs, implements, and edits your system to harden and secure your Linux Desktop
 # It will only work on DEB based systems
+# The configured settings were used in reference to the CIS Ubuntu 20.4 LTS Benchmark
 if [ $EUID !=  "0" ]
   then echo "Run script with sudo."
   exit
@@ -9,17 +10,17 @@ fi
 #________________________________________________#
 automatic_password_policy()
 # These values allow edit and changes based on any updates standards on password policy
-# All edits are made to the etc/security/pamquality.conf except for retries
-minlen=16
-minclass=4
-ucredit=-1
-dcredit=-1
-ocredit=-1
-lcredit=-1
-retry=3
+# All edits are made to the /etc/security/pamquality.conf except for retries
+# Viewed CIS benchmark for Ubuntu
 {
-sed -i '25s/$/ minlen=$minlen minclass=$minclass ucredit=$ucredit dcredit=$dcredit ocredit=$ocredit lcredit=$lcredit/' /etc/security/pwquality.conf
-sed -1 '25s/$/ retry=$retry
+sed -i 's/^minlen.*/minlen=16/' /etc/security/pwquality.conf
+sed -i 's/^minclass.*/minclass=4/' /etc/security/pwquality.conf
+sed -i 's/^ucredit.*/ucredit=-1/' /etc/security/pwquality.conf
+sed -i 's/^dcredit.*/dcredit=-1/' /etc/security/pwquality.conf
+sed -i 's/^ocredit.*/orcredit=-1/' /etc/security/pwquality.conf
+sed -i 's/^lcredit.*/lcredit=-1/' /etc/security/pwquality.conf
+# Anything beyond here edits other files, typically in the pam.d directory 
+sed -1 '25s/$/ try_first_pass local_users_only retry=3/' /etc/pam.d/common-password
 passwd -d root # This will delete the root password
 passwd -l root # This will lock root
 }
