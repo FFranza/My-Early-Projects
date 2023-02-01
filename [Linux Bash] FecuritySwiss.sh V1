@@ -21,6 +21,7 @@ sed -i 's/^ocredit.*/orcredit=-1/' /etc/security/pwquality.conf
 sed -i 's/^lcredit.*/lcredit=-1/' /etc/security/pwquality.conf
 # Anything beyond here edits other files, typically in the pam.d directory 
 sed -1 '25s/$/ try_first_pass local_users_only retry=3/' /etc/pam.d/common-password
+sed -i '
 passwd -d root # This will delete the root password
 passwd -l root # This will lock root
 }
