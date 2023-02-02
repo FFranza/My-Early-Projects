@@ -46,7 +46,7 @@ ufw_configuration()
 # 217 of the CIS Benchmark
 # Take in mind using ufw means iptables will need be deleted
 # If you need to allow any port or tcp or udp protocol use "ufw allow in <port>/<tcp or udp protocol>
-# Use ufw allow <option> if any specific port is needed
+# Use ufw allow <port/protocol> if any specific port is needed
 {
 ufw allow proto tcp from any to any port 22 # Allows port 22
 ufw enable # Flushes ports and enables ufw
