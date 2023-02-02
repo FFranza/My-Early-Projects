@@ -38,7 +38,7 @@ installing_updates_and_tools()
 # Installs UncomplicatedFirewall, PWQuality, Auditcl, SysLog, Sudo, rkhunter, and ClamAV
 {
 apt-get -y update && apt-get -y upgrade && apt-get -y dist-upgrade
-apt-get -y install ufw && apt-get -y install libpam-pwquality && apt-get -y install auditd && apt-get -y install rsyslog && apt-get sudo-ldap && apt-get -y install lynis && apt-get -y install rkhunter && apt-get -y install clamav 
+apt-get -y install ufw && apt-get -y install libpam-pwquality && apt-get -y install auditd audispd-plugins && apt-get -y install rsyslog && apt-get sudo-ldap && apt-get -y install lynis && apt-get -y install rkhunter && apt-get -y install clamav 
 }
 #________________________________________________#
 ufw_configuration()
@@ -63,3 +63,10 @@ ufw default deny outging # All default deny lines closes all ports not related o
 ufw default deny routed
 }
 #________________________________________________#
+auditing_configuration()
+{
+systemctl --now enable auditd
+sed -i 's/^E_LINUX.*/$/"audit=1"/' /etc/deafult/grub
+
+
+
