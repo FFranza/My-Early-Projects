@@ -3,6 +3,7 @@
 # This security tool installs, implements, and edits your system to harden and secure your Linux Desktop
 # It will only work on DEB based systems
 # The configured settings were used in reference to the CIS Ubuntu 20.4 LTS Benchmark
+# Functions are used for autmations, if its in the case statements then it means it has to be done manually i.e Adding Users
 if [ $EUID !=  "0" ]
   then echo "Run script with sudo."
   exit
@@ -13,6 +14,8 @@ automatic_password_policy()
 # All edits are made to the /etc/security/pwquality.conf
 # This section allows to change the values found without it being specified to the default value. Only change the number value.
 # Find a sed manuel before editing the file if usage of sed is not clear
+# Sed is a linux bash command that allows the user with sudo privliges to edit lines of text
+# 437 of the CIS Benchmark 
 {
 sed -i 's/^minlen.*/minlen=16/' /etc/security/pwquality.conf
 sed -i 's/^minclass.*/minclass=4/' /etc/security/pwquality.conf
@@ -20,15 +23,42 @@ sed -i 's/^ucredit.*/ucredit=-1/' /etc/security/pwquality.conf
 sed -i 's/^dcredit.*/dcredit=-1/' /etc/security/pwquality.conf
 sed -i 's/^ocredit.*/orcredit=-1/' /etc/security/pwquality.conf
 sed -i 's/^lcredit.*/lcredit=-1/' /etc/security/pwquality.conf
-# Anything beyond here edits other files, typically in the pam.d directory 
-sed -i '25s/$/ try_first_pass local_users_only retry=3/' /etc/pam.d/common-password
-sed -i '/secure$/a auth required pam_tally2.so onerr=fail audit silent deny=5 unlock_time=900'
-sed -i '/unix.so$/a account requisite pam_deny.so
-sed -i '/deny.so$/a account required pam_tally2.so
+# Anything beyond here edits other files, it will be in the /etc/pam.d directory 
+sed -i '25s/$/ try_first_pass local_users_only retry=3/' /etc/pam.d/common-password 
+sed -i '/secure$/a auth required pam_tally2.so onerr=fail audit silent deny=5 unlock_time=900' /etc/pam.d/common-auth
+sed -i '/unix.so$/a account requisite pam_deny.so' /etc/pam.d/common-account
+sed -i '/deny.so$/a account required pam_tally2.so' /etc/pam.d/common-account
 passwd -d root # This will delete the root password, please make sure to have an account in the sudo group before doing this
 passwd -l root # This will lock root
 }
 #________________________________________________#
 installing_updates_and_tools()
+# Really simple concept. Updates the system and installs necessary package. PLEASE RUN "sudo dpkg --configure -a" if it's not allowing you to use apt-get
+# Also the repositories of apt-get are in "/etc/apt/sources.list" if its not working check it out
+# Installs UncomplicatedFirewall, PWQuality, Auditcl, SysLog, Sudo, rkhunter, and ClamAV
 {
-apt-get update && apt
+apt-get -y update && apt-get -y upgrade && apt-get -y dist-upgrade
+apt-get -y install ufw && apt-get -y install libpam-pwquality && apt-get -y install auditd && apt-get -y install rsyslog && apt-get sudo-ldap && apt-get -y install lynis && apt-get -y install rkhunter && apt-get -y install clamav 
+}
+#________________________________________________#
+ufw_configuration()
+# Goes over closing and managing traffic and ports of firewalls by using the ufw tool and makes it more easier to run automatically
+# Take in mind using ufw means iptables will need be deleted
+# If you need to allow any port or tcp or udp protocol use "ufw allow in <port>/<tcp or udp protocol>
+# Use ufw allow <option> if any specific port is needed
+{
+ufw allow proto tcp from any to any port 22 # Allows port 22
+ufw enable # Flushes ports and enables ufw
+ufw allow in on lo # Allows to view loopback on network interface
+ufw allow out on lo # Similar to line above
+ufw deny in from 127.0.0.0/8 # Ignores loopback from v4
+ufy deny in from ::1 # Ignores loobpack from v6
+ufw allow in http # Allows http port coming in
+ufw allow in https # Allows https port coming in
+ufw allow out 53 # Allows DHCP port coming out
+ufw logging on # Logs port coming in and out
+ufw default deny incoming
+ufw default deny outging # All default deny lines closes all ports not related ot line above it, if needed add specific ports 
+ufw default deny routed
+}
+#________________________________________________#
