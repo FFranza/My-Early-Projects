@@ -64,9 +64,22 @@ ufw default deny routed
 }
 #________________________________________________#
 auditing_configuration()
+# The text files made and edit ensure that the workstation is being properply audited while its logs are kept in a timely manner
+# Page 279 of CIS Benchmark
 {
 systemctl --now enable auditd
-sed -i 's/^E_LINUX.*/$/"audit=1"/' /etc/deafult/grub
+sed -i 's/action =$/ keep_logs/' /etc/audit/auditd.conf # Keeps log of audits
+echo "-a always,exit -F arch=b64 -S adjtimex -S settimeofday -k time-change
+
+-a always,exit -F arch=b32 -S adjtimex -S settimeofday -S stime -k time-
+change
+
+-a always,exit -F arch=b64 -S clock_settime -k time-change
+-a always,exit -F arch=b32 -S clock_settime -k time-change
+-w /etc/localtime -p wa -k time-change" > /etc/audit/rules.d/eventandmodify.rules # Creates a rule text file so that modify dates and event informations are collected
+
+
+
 
 
 
