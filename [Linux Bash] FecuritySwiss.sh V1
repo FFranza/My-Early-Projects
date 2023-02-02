@@ -43,6 +43,7 @@ apt-get -y install ufw && apt-get -y install libpam-pwquality && apt-get -y inst
 #________________________________________________#
 ufw_configuration()
 # Goes over closing and managing traffic and ports of firewalls by using the ufw tool and makes it more easier to run automatically
+# 217 of the CIS Benchmark
 # Take in mind using ufw means iptables will need be deleted
 # If you need to allow any port or tcp or udp protocol use "ufw allow in <port>/<tcp or udp protocol>
 # Use ufw allow <option> if any specific port is needed
