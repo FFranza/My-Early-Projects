@@ -17,12 +17,12 @@ automatic_password_policy()
 # Sed is a linux bash command that allows the user with sudo privliges to edit lines of text
 # 437 of the CIS Benchmark 
 {
-sed -i 's/^minlen.*/minlen=16/' /etc/security/pwquality.conf
-sed -i 's/^minclass.*/minclass=4/' /etc/security/pwquality.conf
-sed -i 's/^ucredit.*/ucredit=-1/' /etc/security/pwquality.conf
-sed -i 's/^dcredit.*/dcredit=-1/' /etc/security/pwquality.conf
-sed -i 's/^ocredit.*/orcredit=-1/' /etc/security/pwquality.conf
-sed -i 's/^lcredit.*/lcredit=-1/' /etc/security/pwquality.conf
+sed -i 's/^minlen.*/minlen = 16/' /etc/security/pwquality.conf
+sed -i 's/^minclass.*/minclass = 4/' /etc/security/pwquality.conf
+sed -i 's/^ucredit.*/ucredit = -1/' /etc/security/pwquality.conf
+sed -i 's/^dcredit.*/dcredit = -1/' /etc/security/pwquality.conf
+sed -i 's/^ocredit.*/orcredit = -1/' /etc/security/pwquality.conf
+sed -i 's/^lcredit.*/lcredit = -1/' /etc/security/pwquality.conf
 # Anything beyond here edits other files, it will be in the /etc/pam.d directory 
 sed -i '25s/$/ try_first_pass local_users_only retry=3/' /etc/pam.d/common-password 
 sed -i '/secure$/a auth required pam_tally2.so onerr=fail audit silent deny=5 unlock_time=900' /etc/pam.d/common-auth
@@ -64,6 +64,7 @@ ufw default deny routed
 auditing_configuration()
 # The text files made and edit ensure that the workstation is being properply audited while its logs are kept in a timely manner
 # Page 279 of CIS Benchmark
+# For further reasoning on why the long list of rules on audits, see page of CIS Benchmark (Just read it, it'll make sense for all these rules)
 {
 systemctl --now enable auditd
 sed -i 's/action =$/ keep_logs/' /etc/audit/auditd.conf # Keeps log of audits
@@ -123,6 +124,9 @@ ftruncate -F exit=-EPERM -F auid>=1000 -F auid!=4294967295 -k access
 ftruncate -F exit=-EPERM -F auid>=1000 -F auid!=4294967295 -k access" > /etc/audit/rules.d/eventandmodify.rules # Creates a rule text file so that modify dates and event informations are collected
 }
 #________________________________________________#
+
+
+#________________________________________________#
 echo "Please select an option to run script"
 echo "1 Updates"
 echo "2 Password Policies"
@@ -130,6 +134,7 @@ echo "3 Firewall"
 echo "4 Audits"
 read $user_response_to_menu
 case $user_response_to_menu in
+  
   1)
     echo $(installing_updates_and_tools)
     exit
