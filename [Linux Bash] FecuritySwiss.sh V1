@@ -124,8 +124,11 @@ ftruncate -F exit=-EPERM -F auid>=1000 -F auid!=4294967295 -k access
 ftruncate -F exit=-EPERM -F auid>=1000 -F auid!=4294967295 -k access" > /etc/audit/rules.d/eventandmodify.rules # Creates a rule text file so that modify dates and event informations are collected
 }
 #________________________________________________#
-
-
+setup_of_antivirustools()
+sed -i 's/WEB_CMD="/bin/false"/# WEB_CMD="/bin/false"'/etc/rkhunter.conf # Disables WEB_CMD 
+sed -i 's/UPDATE_MIRROS=/$/1' /etc/rkhunter.conf
+sed -i 's/MIRRORS_MODE=/$/0' /etc/rkhunter.conf
+sed -i 's/'
 #________________________________________________#
 echo "Please select an option to run script"
 echo "1 Updates"
@@ -152,4 +155,3 @@ case $user_response_to_menu in
     exit
     ;;
 esac
-
