@@ -3,7 +3,7 @@
 # This security tool installs, implements, and edits your system to harden and secure your Linux Desktop
 # It will only work on DEB based systems
 # The configured settings were used in reference to the CIS Ubuntu 20.4 LTS Benchmark
-# Functions are used for autmations, if its in the case statements then it means it has to be done manually i.e Adding Users
+# Functions are used for automations, if its in the case statements then it means it has to be done manually i.e Adding Users
 if [ $EUID !=  "0" ]
   then echo "Run script with sudo."
   exit
