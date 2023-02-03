@@ -28,8 +28,6 @@ sed -i '25s/$/ try_first_pass local_users_only retry=3/' /etc/pam.d/common-passw
 sed -i '/secure$/a auth required pam_tally2.so onerr=fail audit silent deny=5 unlock_time=900' /etc/pam.d/common-auth
 sed -i '/unix.so$/a account requisite pam_deny.so' /etc/pam.d/common-account
 sed -i '/deny.so$/a account required pam_tally2.so' /etc/pam.d/common-account
-passwd -d root # This will delete the root password, please make sure to have an account in the sudo group before doing this
-passwd -l root # This will lock root
 }
 #________________________________________________#
 installing_updates_and_tools()
