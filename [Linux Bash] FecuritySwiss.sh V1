@@ -123,6 +123,7 @@ ftruncate -F exit=-EACCES -F auid>=1000 -F auid!=4294967295 -k access
 ftruncate -F exit=-EPERM -F auid>=1000 -F auid!=4294967295 -k access
 -a always,exit -F arch=b32 -S creat -S open -S openat -S truncate -S
 ftruncate -F exit=-EPERM -F auid>=1000 -F auid!=4294967295 -k access" > /etc/audit/rules.d/eventandmodify.rules # Creates a rule text file so that modify dates and event informations are collected
+}
 #________________________________________________#
 echo "Please select an option to run script"
 echo "1 Updates"
@@ -147,4 +148,5 @@ case $user_response_to_menu in
     echo $(auditing_configuration)
     exit
     ;;
+esac
 
