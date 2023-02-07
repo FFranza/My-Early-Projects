@@ -47,17 +47,17 @@ ufw_configuration()
 # Use ufw allow <port/protocol> if any specific port is needed
 {
 ufw allow proto tcp from any to any port 22 # Allows port 22
-ufw enable # Flushes ports and enables ufw
+ufw allow in http # Allows http port coming in
+ufw allow in https # Allows https port coming in
 ufw allow in on lo # Allows to view loopback on network interface
 ufw allow out on lo # Similar to line above
 ufw deny in from 127.0.0.0/8 # Ignores loopback from v4
-ufy deny in from ::1 # Ignores loobpack from v6
-ufw allow in http # Allows http port coming in
-ufw allow in https # Allows https port coming in
+ufy deny in from ::1 # Ignores loopback from v6
 ufw allow out 53 # Allows DHCP port coming out
 ufw logging on # Logs port coming in and out
+ufw enable # Flushes ports and enables ufw
 ufw default deny incoming
-ufw default deny outging # All default deny lines closes all ports not related ot line above it, if needed add specific ports 
+ufw default deny outgoing # All default deny lines closes all ports not related of line above it, if needed add specific ports 
 ufw default deny routed
 }
 #________________________________________________#
@@ -125,10 +125,12 @@ ftruncate -F exit=-EPERM -F auid>=1000 -F auid!=4294967295 -k access" > /etc/aud
 }
 #________________________________________________#
 setup_of_antivirustools()
+{
 sed -i 's/WEB_CMD="/bin/false"/# WEB_CMD="/bin/false"'/etc/rkhunter.conf # Disables WEB_CMD 
 sed -i 's/UPDATE_MIRROS=/$/1' /etc/rkhunter.conf
 sed -i 's/MIRRORS_MODE=/$/0' /etc/rkhunter.conf
 sed -i 's/'
+}
 #________________________________________________#
 echo "Please select an option to run script"
 echo "1 Updates"
