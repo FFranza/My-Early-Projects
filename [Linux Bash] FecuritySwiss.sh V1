@@ -125,11 +125,16 @@ ftruncate -F exit=-EPERM -F auid>=1000 -F auid!=4294967295 -k access" > /etc/aud
 }
 #________________________________________________#
 setup_of_antivirustools()
+# rkhunter is a rootkit scanning tool that finds rootkits into the system and allows the user to remove the rootkit when found
+# Configuration of rkhunter is not on the ubuntu benchmark but on this website https://www.atlantic.net/dedicated-server-hosting/detect-linux-security-holes-and-rootkits-with-rkhunter-on-ubuntu-20-04/
 {
 sed -i 's/^WEB_CMD*./# WEB_CMD="'/etc/rkhunter.conf # Disables WEB_CMD 
-sed -i 's/UPDATE_MIRROS=/$/1' /etc/rkhunter.conf
-sed -i 's/MIRRORS_MODE=/$/0' /etc/rkhunter.conf
-sed -i 's/'
+sed -i 's/^UPDATE_MIRROS*./UPDATE_MIRRORS=1' /etc/rkhunter.conf
+sed -i 's/^MIRRORS_MODE*./MIRRORS_MODE=0' /etc/rkhunter.conf
+echo "CRON_DAILY_RUN="true"
+CRON_DB_UPDATE="true"
+APT_AUTOGEN="true"" > etc/deafult/rkhunter.conf
+rkhunter --update
 }
 #________________________________________________#
 echo "Please select an option to run script"
