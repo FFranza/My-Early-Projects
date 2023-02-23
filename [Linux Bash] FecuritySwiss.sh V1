@@ -29,6 +29,7 @@ sed -i '/secure$/a auth required pam_tally2.so onerr=fail audit silent deny=5 un
 sed -i '/unix.so$/a account requisite pam_deny.so' /etc/pam.d/common-account
 sed -i '/deny.so$/a account required pam_tally2.so' /etc/pam.d/common-account
 }
+password_policy_variable="$(automatic_password_policy)"
 #________________________________________________#
 installing_updates_and_tools()
 # Really simple concept. Updates the system and installs necessary package. PLEASE RUN "sudo dpkg --configure -a" if it's not allowing you to use apt-get
@@ -150,8 +151,10 @@ case $user_response_to_menu in
     exit
     ;;
   2)
-    echo $(automatic_password_policy)
-    exit
+    if grep -Fxq $password_policy_variable /etc/security/pwqaulity.conf
+      then echo "pwquality configuration values have been already set
+      else echo $(automatic_password_policy)
+    fi
     ;;
   3)
     echo $(ufw_configuration)
