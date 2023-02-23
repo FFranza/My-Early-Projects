@@ -39,6 +39,8 @@ installing_updates_and_tools()
 apt-get -y update && apt-get -y upgrade && apt-get -y dist-upgrade
 apt-get -y install ufw && apt-get -y install libpam-pwquality && apt-get -y install auditd audispd-plugins && apt-get -y install rsyslog && apt-get sudo-ldap && apt-get -y install lynis && apt-get -y install rkhunter && apt-get -y install clamav 
 }
+pwqaulity_installed_check=$(dpkg -s libpam-pwquality)
+auditd_installed_check=$(dpkg
 #________________________________________________#
 ufw_configuration()
 # Goes over closing and managing traffic and ports of firewalls by using the ufw tool and makes it more easier to run automatically
@@ -138,30 +140,33 @@ APT_AUTOGEN="true"" > etc/deafult/rkhunter.conf
 rkhunter --update
 }
 #________________________________________________#
-echo "Please select an option to run script"
-echo "1 Updates"
-echo "2 Password Policies"
-echo "3 Firewall"
-echo "4 Audits"
-read $user_response_to_menu
-case $user_response_to_menu in
-  
-  1)
-    echo $(installing_updates_and_tools)
-    exit
-    ;;
-  2)
-    if grep -Fxq $password_policy_variable /etc/security/pwqaulity.conf
-      then echo "pwquality configuration values have been already set
-      else echo $(automatic_password_policy)
-    fi
-    ;;
-  3)
-    echo $(ufw_configuration)
-    exit
-    ;;
-  4)
-    echo $(auditing_configuration)
-    exit
-    ;;
-esac
+while [ "$user_response_to_menu" != "0" ]
+  do
+    echo "Please select an option to run script"
+    echo "1 Updates"
+    echo "2 Password Policies"
+    echo "3 Firewall"
+    echo "4 Audits"
+    read $user_response_to_menu
+    case $user_response_to_menu in
+
+      1)
+        echo $(installing_updates_and_tools)
+        exit
+        ;;
+      2)
+        if grep -Fxq $password_policy_variable /etc/security/pwqaulity.conf
+          then echo "pwquality configuration values have been already set
+          else echo $(automatic_password_policy)
+        fi
+        ;;
+      3)
+        echo $(ufw_configuration)
+        exit
+        ;;
+      4)
+        echo $(auditing_configuration)
+        exit
+        ;;
+    esac
+done
