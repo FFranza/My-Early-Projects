@@ -29,7 +29,6 @@ sed -i '/secure$/a auth required pam_tally2.so onerr=fail audit silent deny=5 un
 sed -i '/unix.so$/a account requisite pam_deny.so' /etc/pam.d/common-account
 sed -i '/deny.so$/a account required pam_tally2.so' /etc/pam.d/common-account
 }
-password_policy_variable="$(automatic_password_policy)"
 #________________________________________________#
 installing_updates_and_tools()
 # Really simple concept. Updates the system and installs necessary package. PLEASE RUN "sudo dpkg --configure -a" if it's not allowing you to use apt-get
@@ -155,8 +154,18 @@ while [ "$user_response_to_menu" != "0" ]
         exit
         ;;
       2)
-        if grep -Fxq $password_policy_variable /etc/security/pwqaulity.conf
-          then echo "pwquality configuration values have been already set
+        if grep -q '^minlen = 16' /etc/security/pwqaulity.conf \
+           || grep -q '^minclass = 4' /etc/security/pwqaulity.conf \
+           || grep -q '^ucredit = -1' /etc/security/pwqaulity.conf \
+           || grep -q '^dcredit = -1' /etc/security/pwqaulity.conf \
+           || grep -q '^lcredit = -1' /etc/security/pwqaulity.conf \
+           || grep -q '^ocredit = -1' /etc/security/pwqaulity.conf \
+           || grep -Fxq ' try_first_pass local_users_only retry=3' /etc/pam.d/common-password \
+           || grep -Fxq 'account requisite pam_deny.so' /etc/pam.d/common-auth/
+           || grep -Fxq 'auth required pam_tally2.so onerr=fail audit silent deny=5 unlock_time=900' /etc/pam.d/common-auth
+           || grep - 'account requisite pam_deny.so' /etc/pam.d/common-account
+          sed -i '/deny.so$/a account required pam_tally2.so' /etc/pam.d/common-account
+          then echo "pwquality configuration values have been already set"
           else echo $(automatic_password_policy)
         fi
         ;;
