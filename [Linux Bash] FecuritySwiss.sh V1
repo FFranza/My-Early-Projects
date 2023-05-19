@@ -1,8 +1,8 @@
 #!/bin/bash
-# This Script will not run WITHOUT Sudo
+# This Script will not run WITHOUT Sudo 
 # This security tool installs, implements, and edits your system to harden and secure your Linux Desktop
-# It will only work on DEB based systems
-# The configured settings were used in reference to the CIS Ubuntu 20.4 LTS Benchmark
+# It will only work on RPM based systems
+# The configured settings were used in reference to the CIS Ubuntu 20.4 LTS Benchmark 
 # Functions are used for automations, if its in the case statements then it means it has to be done manually i.e Adding Users
 if [ $EUID !=  "0" ]
   then echo "Run script with sudo."
@@ -36,10 +36,10 @@ installing_updates_and_tools()
 # Installs UncomplicatedFirewall, PWQuality, Auditcl, SysLog, Sudo, rkhunter, and ClamAV
 {
 apt-get -y update && apt-get -y upgrade && apt-get -y dist-upgrade
-apt-get -y install ufw && apt-get -y install libpam-pwquality && apt-get -y install auditd audispd-plugins && apt-get -y install rsyslog && apt-get sudo-ldap && apt-get -y install lynis && apt-get -y install rkhunter && apt-get -y install clamav 
+apt-get -y install ufw && apt-get -y install libpam-pwquality && apt-get -y install auditd audispd-plugins && apt-get -y install rsyslog && apt-get -y install sudo-ldap && apt-get -y install lynis && apt-get -y install rkhunter && apt-get -y install clamav 
 }
 pwqaulity_installed_check=$(dpkg -s libpam-pwquality)
-auditd_installed_check=$(dpkg
+auditd_installed_check=$(dpkg)
 #________________________________________________#
 ufw_configuration()
 # Goes over closing and managing traffic and ports of firewalls by using the ufw tool and makes it more easier to run automatically
@@ -66,7 +66,7 @@ ufw default deny routed
 auditing_configuration()
 # The text files made and edit ensure that the workstation is being properply audited while its logs are kept in a timely manner
 # Page 279 of CIS Benchmark
-# For further reasoning on why the long list of rules on audits, see page of CIS Benchmark (Just read it, it'll make sense for all these rules)
+# For further reasoning on why the long list of rules on audits, see page of CIS Benchmark Just read it, it'll make sense for all these rules
 {
 systemctl --now enable auditd
 sed -i 's/action =$/ keep_logs/' /etc/audit/auditd.conf # Keeps log of audits
@@ -130,12 +130,12 @@ setup_of_antivirustools()
 # rkhunter is a rootkit scanning tool that finds rootkits into the system and allows the user to remove the rootkit when found
 # Configuration of rkhunter is not on the ubuntu benchmark but on this website https://www.atlantic.net/dedicated-server-hosting/detect-linux-security-holes-and-rootkits-with-rkhunter-on-ubuntu-20-04/
 {
-sed -i 's/^WEB_CMD*./# WEB_CMD="'/etc/rkhunter.conf # Disables WEB_CMD 
+sed -i 's/^WEB_CMD*./# WEB_CMD='/etc/rkhunter.conf # Disables WEB_CMD 
 sed -i 's/^UPDATE_MIRROS*./UPDATE_MIRRORS=1' /etc/rkhunter.conf
 sed -i 's/^MIRRORS_MODE*./MIRRORS_MODE=0' /etc/rkhunter.conf
-echo "CRON_DAILY_RUN="true"
+echo "CRON_DAILY_RUN"="true"
 CRON_DB_UPDATE="true"
-APT_AUTOGEN="true"" > etc/deafult/rkhunter.conf
+APT_AUTOGEN="true" > etc/deafult/rkhunter.conf
 rkhunter --update
 }
 #________________________________________________#
