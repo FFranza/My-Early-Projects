@@ -40,7 +40,7 @@ Drop it into your server's ESXi client and now the website can be accessed throu
     
         RUI_CRT = /home/foundry/foundry/certs/host.pem /home/foundry/foundry/certs/int-ca.pem
         RUI_KEY = /home/foundry/foundry/certs/host-key.pem
-        APPLIACE_IP =**INSERT YOUR NETWORK IP ADDRESS**
+        APPLIACE_IP =**INSERT THE IP Address of the Appliance**
       
 * Edit the import-content script on line 115, and rewrite it by only leaving one postgres:
 
