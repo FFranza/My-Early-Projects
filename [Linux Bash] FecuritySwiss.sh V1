@@ -21,8 +21,9 @@ sed -i 's/^minlen.*/minlen = 16/' /etc/security/pwquality.conf
 sed -i 's/^minclass.*/minclass = 4/' /etc/security/pwquality.conf
 sed -i 's/^ucredit.*/ucredit = -1/' /etc/security/pwquality.conf
 sed -i 's/^dcredit.*/dcredit = -1/' /etc/security/pwquality.conf
-sed -i 's/^ocredit.*/orcredit = -1/' /etc/security/pwquality.conf
+sed -i 's/^ocredit.*/ocredit = -1/' /etc/security/pwquality.conf
 sed -i 's/^lcredit.*/lcredit = -1/' /etc/security/pwquality.conf
+
 # Anything beyond here edits other files, it will be in the /etc/pam.d directory 
 sed -i '25s/$/ try_first_pass local_users_only retry=3/' /etc/pam.d/common-password 
 sed -i '/secure$/a auth required pam_tally2.so onerr=fail audit silent deny=5 unlock_time=900' /etc/pam.d/common-auth
@@ -38,8 +39,7 @@ installing_updates_and_tools()
 apt-get -y update && apt-get -y upgrade && apt-get -y dist-upgrade
 apt-get -y install ufw && apt-get -y install libpam-pwquality && apt-get -y install auditd audispd-plugins && apt-get -y install rsyslog && apt-get -y install sudo-ldap && apt-get -y install lynis && apt-get -y install rkhunter && apt-get -y install clamav 
 }
-pwqaulity_installed_check=$(dpkg -s libpam-pwquality)
-auditd_installed_check=$(dpkg)
+
 #________________________________________________#
 ufw_configuration()
 # Goes over closing and managing traffic and ports of firewalls by using the ufw tool and makes it more easier to run automatically
@@ -150,28 +150,44 @@ while [ "$user_response_to_menu" != "0" ]
     case $user_response_to_menu in
 
       1)
-        echo $(installing_updates_and_tools)
+        installed_files=$(apt-get -y update && apt-get -y upgrade && apt-get -y dist-upgrade && apt-get -y install ufw && apt-get -y install libpam-pwquality && apt-get -y install auditd audispd-plugins && apt-get -y install rsyslog && apt-get -y install sudo-ldap && apt-get -y install lynis && apt-get -y install rkhunter && apt-get -y install clamav)
+        if echo "$installed_files" | grep -q 'Reading Package lists....Done$'; then
+            echo "Packages have already been installed"
+        else
+            echo $(installing_updates_and_tools)
+        fi
         exit
         ;;
+      
       2)
-        echo "Script is running a check configuration files, give it a moment."
-        if grep -q '^minlen = 16' /etc/security/pwqaulity.conf \
-           || grep -q '^minclass = 4' /etc/security/pwqaulity.conf \
-           || grep -q '^ucredit = -1' /etc/security/pwqaulity.conf \
-           || grep -q '^dcredit = -1' /etc/security/pwqaulity.conf \
-           || grep -q '^lcredit = -1' /etc/security/pwqaulity.conf \
-           || grep -q '^ocredit = -1' /etc/security/pwqaulity.conf \
-           || grep -q ' try_first_pass local_users_only retry=3' /etc/pam.d/common-password \
-           || grep -q 'account requisite pam_deny.so' /etc/pam.d/common-auth/
-           || grep -q 'auth required pam_tally2.so onerr=fail audit silent deny=5 unlock_time=900' /etc/pam.d/common-auth \
-           || grep -q 'account requisite pam_deny.so' /etc/pam.d/common-account \
-           || grep -q '/deny.so$/a account required pam_tally2.so' /etc/pam.d/common-account
-          then echo "pwquality configuration values have been already set"
-          else echo $(automatic_password_policy)
+        echo "Before running this command, are your admin users satisfying Benchmark rules? (DONT LOCK YOURSELF OUT)"
+        echo "1 Yes"
+        echo "2 No"
+        read user_response_to_case2
+        if [ "$user_response_to_case2" = "1" ]; then
+            echo "Script is running a check configuration files, give it a moment..."
+            if grep -q '^minlen = 16' /etc/security/pwqaulity.conf \
+                || grep -q '^minclass = 4' /etc/security/pwqaulity.conf \
+                || grep -q '^ucredit = -1' /etc/security/pwqaulity.conf \
+                || grep -q '^dcredit = -1' /etc/security/pwqaulity.conf \
+                || grep -q '^lcredit = -1' /etc/security/pwqaulity.conf \
+                || grep -q '^ocredit = -1' /etc/security/pwqaulity.conf \
+                || grep -q ' try_first_pass local_users_only retry=3' /etc/pam.d/common-password \
+                || grep -q 'account requisite pam_deny.so' /etc/pam.d/common-auth/
+                || grep -q 'auth required pam_tally2.so onerr=fail audit silent deny=5 unlock_time=900' /etc/pam.d/common-auth \
+                || grep -q 'account requisite pam_deny.so' /etc/pam.d/common-account \
+                || grep -q '/deny.so$/a account required pam_tally2.so' /etc/pam.d/common-account
+                then echo "pwquality configuration values have been already set"
+                else echo $(automatic_password_policy)
+            fi
+            else echo "Access Option 4 and update the admins passwords"
         fi
         ;;
+      
       3)
         echo $(ufw_configuration)
+        ufw_status=$(ufw status)
+        if echo "$ufw_status" 
         exit
         ;;
       4)

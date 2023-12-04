@@ -1,10 +1,12 @@
 #!/bin/bash
+# Check line 34 to line 43 for http.conf
+# Check line 58 to line 64 for ssl.conf
 if [ $EUID ! = "0" ] 
     then echo "Run Script with sudo. Do: sudo ./redhat_setup"
     exit
 fi
 
-# Necessary update and installing Apache, 
+# Necessary update and installing Apache 
 
 yum update -y # Installs necessary package updates
 yum install httpd -y # Installs Apache
@@ -36,10 +38,10 @@ read -r $response
                     # INSERT SERVER NAME # # INSERT DOMAIN.com #\
                     DocumentRoot /var/www/html\
                     \\n\
-                    SSLEngine on\
-                    SSLCertificate # INSERT PATH TO SSL CERTIFICATE #\
-                    SSLCertificateKeyFile # INSERT PATH TO SSL PRIVATE KEY #\
-                    SSLCertificateChainFile # INSERT SSL CERTIFICATE BUNDLE #\
+                    # SSLEngine on\
+                    # SSLCertificate # INSERT PATH TO SSL CERTIFICATE #\
+                    # SSLCertificateKeyFile # INSERT PATH TO SSL PRIVATE KEY #\
+                    # SSLCertificateChainFile # INSERT SSL CERTIFICATE BUNDLE #\
                     ' "$config_file_httpd"
                     echo "Lines add to $config_file_httpd"
                     systemctl restart httpd
@@ -56,10 +58,10 @@ read -r $response
                     # INSERT SERVER NAME # # INSERT DOMAIN.com #\
                     DocumentRoot /var/www/html\
                     \n\
-                    SSLEngine on\
-                    SSLCertificate # INSERT PATH TO SSL CERTIFICATE #\
-                    SSLCertificateKeyFile # INSERT PATH TO SSL PRIVATE KEY #\
-                    SSLCertificateChainFile # INSERT SSL CERTIFICATE BUNDLE #\
+                    # SSLEngine on\
+                    # SSLCertificate # INSERT PATH TO SSL CERTIFICATE #\
+                    # SSLCertificateKeyFile # INSERT PATH TO SSL PRIVATE KEY #\
+                    # SSLCertificateChainFile # INSERT SSL CERTIFICATE BUNDLE #\
                     ' "$config_file_ssl"
                     echo "Lines add to $config_file_ssl"
                     systemctl restart httpd
